@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenWorkBench — De-Cloud. De-SaaS. Empower Digital Independence.</title>
+  <meta name="description" content="A community-driven open-source initiative building 18 open-source projects across five sovereignty layers — so organizations can own and operate their critical technology.">
+  <meta property="og:title" content="OpenWorkBench — Empower Digital Independence.">
+  <meta property="og:description" content="18 open-source projects. 5 sovereignty layers. Zero lock-in.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #020617;
+      --surface:  #0f172a;
+      --border:   #1e293b;
+      --muted:    #334155;
+      --sub:      #475569;
+      --dim:      #64748b;
+      --secondary:#94a3b8;
+      --primary:  #e2e8f0;
+      --white:    #f8fafc;
+      --accent:   #6366f1;
+      --accent2:  #8b5cf6;
+      --glow:     rgba(99,102,241,0.35);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── NAV ─────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 64px;
+      background: rgba(2,6,23,0.80);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; }
+    .nav-logo svg { height: 34px; width: 34px; }
+    .nav-logo-text { line-height: 1.2; }
+    .nav-logo-text strong { display: block; font-size: 15px; font-weight: 700; color: var(--white); }
+    .nav-logo-text span { display: block; font-size: 11px; color: var(--sub); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a { font-size: 13px; color: var(--dim); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 18px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      color: #fff; font-size: 13px; font-weight: 600;
+      box-shadow: 0 2px 12px var(--glow);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ─── HERO ────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-mesh {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 55% at 15% 15%, rgba(99,102,241,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 85%, rgba(139,92,246,0.14) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 55% 5%,  rgba(99,102,241,0.08) 0%, transparent 50%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 100px;
+      border: 1px solid rgba(99,102,241,0.3);
+      background: rgba(99,102,241,0.08);
+      margin-bottom: 36px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: #818cf8;
+    }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .hero-h1 {
+      font-size: clamp(3.2rem, 8vw, 6.5rem);
+      font-weight: 900; line-height: 1.04;
+      letter-spacing: -0.04em;
+      margin-bottom: 28px;
+    }
+    .hero-h1 .plain { color: var(--white); display: block; }
+    .hero-h1 .grad  {
+      display: block;
+      background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 45%, #8b5cf6 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--dim); max-width: 560px;
+      margin: 0 auto 52px; line-height: 1.75;
+    }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-bottom: 72px; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      color: #fff; font-size: 14px; font-weight: 600;
+      box-shadow: 0 4px 24px var(--glow);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--glow); filter: brightness(1.1); }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 12px;
+      border: 1px solid var(--border);
+      color: var(--secondary); font-size: 14px; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--white); background: rgba(99,102,241,0.06); }
+
+    /* ─── STAT BAR ────────────────────────────────────────────────── */
+    .stat-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      max-width: 560px; margin: 0 auto;
+      border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden; background: rgba(15,23,42,0.8);
+    }
+    .stat-cell {
+      padding: 22px 12px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-num {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 900; line-height: 1;
+      background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.65) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 11px; color: var(--sub); margin-top: 4px; }
+
+    /* ─── SECTION COMMON ─────────────────────────────────────────── */
+    .section { padding: 96px 24px; }
+    .section-alt { background: rgba(15,23,42,0.35); }
+    .section-center { text-align: center; }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 14px; border-radius: 100px;
+      border: 1px solid rgba(99,102,241,0.2);
+      background: rgba(99,102,241,0.05);
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .section-h2 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 900; letter-spacing: -0.03em;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .section-sub { font-size: 18px; color: var(--dim); line-height: 1.7; }
+
+    /* ─── LAYER STACK ─────────────────────────────────────────────── */
+    .stack { max-width: 920px; margin: 0 auto; }
+
+    .layer-connector {
+      width: 2px; height: 22px; margin: 0 auto;
+      background: linear-gradient(to bottom, rgba(99,102,241,0.35), rgba(99,102,241,0.08));
+    }
+
+    .layer-card {
+      border-radius: 18px; padding: 22px;
+      transition: border-color 0.25s;
+    }
+    .layer-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .layer-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+    .layer-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      font-weight: 700;
+    }
+    .layer-desc { font-size: 12px; color: var(--sub); }
+
+    .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 8px; }
+
+    .proj {
+      display: flex; flex-direction: column; gap: 4px;
+      padding: 13px; border-radius: 11px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    .proj:hover { transform: translateY(-2px); }
+    .proj-name { font-size: 13px; font-weight: 600; color: var(--primary); transition: color 0.2s; }
+    .proj-desc { font-size: 11px; color: var(--sub); line-height: 1.45; }
+
+    /* Layer color tokens */
+    .li { --lc:#f59e0b; --lbg:rgba(245,158,11,0.07); --lborder:rgba(245,158,11,0.22); }
+    .la { --lc:#8b5cf6; --lbg:rgba(139,92,246,0.07); --lborder:rgba(139,92,246,0.22); }
+    .lo { --lc:#06b6d4; --lbg:rgba(6,182,212,0.07);  --lborder:rgba(6,182,212,0.22); }
+    .lp { --lc:#3b82f6; --lbg:rgba(59,130,246,0.07); --lborder:rgba(59,130,246,0.22); }
+    .lf { --lc:#64748b; --lbg:rgba(100,116,139,0.07); --lborder:rgba(100,116,139,0.22); }
+
+    .layer-card { background: var(--lbg); border: 1px solid var(--lborder); }
+    .layer-dot  { background: var(--lc); box-shadow: 0 0 8px var(--lc); }
+    .layer-name { color: var(--lc); }
+    .proj { border-color: var(--lborder); }
+    .proj:hover { background: var(--lbg); border-color: var(--lc); }
+    .proj:hover .proj-name { color: var(--lc); }
+
+    .stack-legend {
+      text-align: center; margin-top: 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── WHO IT EMPOWERS ─────────────────────────────────────────── */
+    .pillars { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+    .pillar {
+      padding: 32px;
+      background: rgba(15,23,42,0.55);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .pillar:hover { border-color: rgba(99,102,241,0.3); transform: translateY(-3px); }
+    .pillar-icon { font-size: 36px; margin-bottom: 18px; display: block; }
+    .pillar h3 { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+    .pillar p  { font-size: 14px; color: var(--dim); line-height: 1.75; }
+
+    /* ─── MANIFESTO ───────────────────────────────────────────────── */
+    .manifesto {
+      padding: 80px 24px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(139,92,246,0.04));
+      text-align: center;
+    }
+    .manifesto blockquote {
+      font-size: clamp(1.25rem, 3vw, 1.9rem);
+      font-weight: 700; color: var(--primary);
+      line-height: 1.55; max-width: 780px;
+      margin: 0 auto 20px; font-style: italic;
+    }
+    .manifesto cite { font-size: 13px; color: var(--sub); font-family: 'JetBrains Mono', monospace; font-style: normal; }
+
+    .grad-inline {
+      background: linear-gradient(135deg, #a5b4fc 0%, #8b5cf6 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ─── CONTRIBUTE CTA ─────────────────────────────────────────── */
+    .cta-card {
+      position: relative; overflow: hidden;
+      padding: 72px 40px; border-radius: 24px;
+      background: rgba(15,23,42,0.7);
+      border: 1px solid rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+    .cta-card::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(99,102,241,0.15), transparent);
+    }
+    .cta-card > * { position: relative; z-index: 1; }
+    .cta-card h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 16px; }
+    .cta-card p  { font-size: 17px; color: var(--dim); max-width: 500px; margin: 0 auto 40px; line-height: 1.75; }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 44px 24px;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-wrap: wrap;
+      gap: 24px; align-items: center; justify-content: space-between;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 12px; }
+    .footer-brand svg { height: 30px; width: 30px; opacity: 0.45; }
+    .footer-brand strong { display: block; font-size: 14px; font-weight: 700; color: var(--secondary); }
+    .footer-brand span   { display: block; font-size: 11px; color: var(--muted); }
+    .footer-tagline { font-size: 13px; color: var(--muted); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--sub); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--secondary); }
+
+    /* ─── TYPEWRITER ─────────────────────────────────────────────── */
+    #tw-cur {
+      display: inline-block; width: 4px; height: 0.85em;
+      background: var(--accent2);
+      margin-left: 3px; vertical-align: middle;
+      border-radius: 2px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ─── ANIMATIONS ─────────────────────────────────────────────── */
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.75); }
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      /* Nav: hide subtitle + shrink CTA to icon only */
+      .nav-logo-text span { display: none; }
+      .nav-links { gap: 12px; }
+      .nav-cta-text { display: none; }
+      .nav-cta { padding: 8px 12px; }
+
+      /* Hero */
+      .hero { padding: 96px 20px 64px; }
+      .cta-row { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-secondary { justify-content: center; }
+
+      /* Stats 2×2 grid */
+      .stat-bar { grid-template-columns: repeat(2,1fr); }
+      .stat-cell:nth-child(2) { border-right: none; }
+      .stat-cell:nth-child(3), .stat-cell:nth-child(4) { border-top: 1px solid var(--border); }
+
+      /* Layers: 2-col project grid on mobile */
+      .project-grid { grid-template-columns: repeat(2, 1fr); }
+
+      /* Pillars stack */
+      .pillars { grid-template-columns: 1fr; }
+
+      /* CTA card padding */
+      .cta-card { padding: 48px 24px; }
+
+      /* Footer stack */
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .footer-tagline { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 310">
+      <path d="M 194 54 A 88 88 0 1 1 106 54" fill="none" stroke="#e2e8f0" stroke-width="14" stroke-linecap="round"/>
+      <polyline points="89,69 112,176 150,134 188,176 211,69" fill="none" stroke="#e2e8f0" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="150" y="248" text-anchor="middle" font-family="system-ui" font-size="26" font-weight="800" letter-spacing="10" fill="#818cf8">OPEN</text>
+      <text x="150" y="292" text-anchor="middle" font-family="system-ui" font-size="36" font-weight="800" letter-spacing="1" fill="#e2e8f0">WORKBENCH</text>
+    </svg>
+    <div class="nav-logo-text">
+      <strong>OpenWorkBench</strong>
+      <span>Digital Sovereignty Initiative</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="https://github.com/OpenWorkBench-Co" target="_blank" rel="noopener">
+      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="display:inline;vertical-align:middle;margin-right:5px;"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      <span class="nav-link-text">GitHub</span>
+    </a>
+    <a href="mailto:hello@OpenWorkBench.co" class="nav-cta">
+      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+      <span class="nav-cta-text">hello@OpenWorkBench.co</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Community-Driven Open-Source Initiative
+    </div>
+
+    <h1 class="hero-h1">
+      <span class="plain">De-Cloud.</span>
+      <span class="plain">De-SaaS.</span>
+      <span class="grad"><span id="tw"></span><span id="tw-cur"></span></span>
+    </h1>
+
+    <p class="hero-sub">
+      18 open-source projects across five sovereignty layers — enabling organizations, governments, and individuals to own and operate their critical technology without cloud dependency or proprietary lock-in.
+    </p>
+
+    <div class="cta-row">
+      <a href="https://github.com/OpenWorkBench-Co" target="_blank" rel="noopener" class="btn-primary">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        Explore all 18 projects
+      </a>
+      <a href="mailto:hello@OpenWorkBench.co" class="btn-secondary">
+        Contribute to a layer →
+      </a>
+    </div>
+
+    <div class="stat-bar">
+      <div class="stat-cell">
+        <div class="stat-num">18</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Layers</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Lock-in</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Freedom</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LAYERS OF SOVEREIGNTY -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-center reveal" style="margin-bottom:56px;">
+      <div class="section-eyebrow">Architecture</div>
+      <h2 class="section-h2">Layers of Sovereignty</h2>
+      <p class="section-sub">Every layer you own is a dependency you've liberated.<br>Start anywhere. Own everything.</p>
+    </div>
+
+    <div class="stack">
+
+      <!-- Intelligence -->
+      <div class="layer-card li reveal reveal-d1">
+        <div class="layer-header">
+          <span class="layer-dot" style="animation-delay:0s;"></span>
+          <span class="layer-name">Intelligence</span>
+          <span class="layer-desc">AI inference · agent tooling · design patterns · spec enforcement</span>
+        </div>
+        <div class="project-grid">
+          <a href="https://github.com/OpenWorkBench-Co/OpenInference" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenInference</span>
+            <span class="proj-desc">Sovereign LLM inference — open, modular, self-hostable</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenLinter" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenLinter</span>
+            <span class="proj-desc">Sovereign linter for AI-native apps and modern code</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenPattern" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenPattern</span>
+            <span class="proj-desc">Sovereign design patterns for AI and software systems</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenSpecKit" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenSpecKit</span>
+            <span class="proj-desc">Rules engine + MCP server enforcing the spec → build → verify loop</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="layer-connector"></div>
+
+      <!-- Applications -->
+      <div class="layer-card la reveal reveal-d1">
+        <div class="layer-header">
+          <span class="layer-dot" style="animation-delay:0.4s;"></span>
+          <span class="layer-name">Applications</span>
+          <span class="layer-desc">document editing · secure browser · mail platform · dev terminal</span>
+        </div>
+        <div class="project-grid">
+          <a href="https://github.com/OpenWorkBench-Co/OpenEditor" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenEditor</span>
+            <span class="proj-desc">Sovereign document editor — files, PDFs, spreadsheets, presentations</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenBrowser" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenBrowser</span>
+            <span class="proj-desc">Sovereign AI-native browser — secure, private, enterprise-focused</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenMailer" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenMailer</span>
+            <span class="proj-desc">Sovereign mail platform for humans and AI agents</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenTerminal" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenTerminal</span>
+            <span class="proj-desc">Sovereign terminal for humans and AI agents — secure, collaborative</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="layer-connector"></div>
+
+      <!-- Operations -->
+      <div class="layer-card lo reveal reveal-d1">
+        <div class="layer-header">
+          <span class="layer-dot" style="animation-delay:0.8s;"></span>
+          <span class="layer-name">Operations</span>
+          <span class="layer-desc">observability · structured logging · workflow orchestration</span>
+        </div>
+        <div class="project-grid">
+          <a href="https://github.com/OpenWorkBench-Co/OpenMonitor" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenMonitor</span>
+            <span class="proj-desc">Sovereign observability — metrics, alerting, dashboards, event queuing</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenLogger" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenLogger</span>
+            <span class="proj-desc">Sovereign structured logging for apps, infra, and AI agents</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenPipeline" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenPipeline</span>
+            <span class="proj-desc">Sovereign workflow orchestration for AI and application pipelines</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="layer-connector"></div>
+
+      <!-- Platform -->
+      <div class="layer-card lp reveal reveal-d1">
+        <div class="layer-header">
+          <span class="layer-dot" style="animation-delay:1.2s;"></span>
+          <span class="layer-name">Platform</span>
+          <span class="layer-desc">identity & access · enterprise storage · source control · artifact registry</span>
+        </div>
+        <div class="project-grid">
+          <a href="https://github.com/OpenWorkBench-Co/IdentityCore" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">IdentityCore</span>
+            <span class="proj-desc">Sovereign identity — auth, SSO, OAuth, secrets, access management</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenDisk" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenDisk</span>
+            <span class="proj-desc">Sovereign enterprise object storage — intelligent, scalable, open</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenGit" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenGit</span>
+            <span class="proj-desc">Self-hosted Git — secure source control and collaboration</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenRegistry" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenRegistry</span>
+            <span class="proj-desc">Self-hosted container and artifact registry</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="layer-connector"></div>
+
+      <!-- Foundation -->
+      <div class="layer-card lf reveal reveal-d1">
+        <div class="layer-header">
+          <span class="layer-dot" style="animation-delay:1.6s;"></span>
+          <span class="layer-name">Foundation</span>
+          <span class="layer-desc">software-defined networking · web application firewall · network perimeter</span>
+        </div>
+        <div class="project-grid">
+          <a href="https://github.com/OpenWorkBench-Co/OpenSDN" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenSDN</span>
+            <span class="proj-desc">Sovereign SDN — DNS, proxy, routing, service mesh</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenWAF" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenWAF</span>
+            <span class="proj-desc">Sovereign WAF for AI-native applications</span>
+          </a>
+          <a href="https://github.com/OpenWorkBench-Co/OpenFirewall" target="_blank" rel="noopener" class="proj">
+            <span class="proj-name">OpenFirewall</span>
+            <span class="proj-desc">Sovereign network firewall — intelligent protection for modern cloud infra</span>
+          </a>
+        </div>
+      </div>
+
+      <p class="stack-legend">Intelligence ↑ built on Applications ↑ built on Operations ↑ built on Platform ↑ built on Foundation</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT EMPOWERS -->
+<section class="section">
+  <div class="container">
+    <div class="section-center reveal" style="margin-bottom:52px;">
+      <div class="section-eyebrow">For Everyone</div>
+      <h2 class="section-h2">Who It Empowers</h2>
+      <p class="section-sub">Sovereignty is not a privilege. It's infrastructure.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar reveal reveal-d1">
+        <span class="pillar-icon">🏛️</span>
+        <h3>Governments &amp; Public Sector</h3>
+        <p>Run citizen data on infrastructure you control. No foreign cloud dependency. No proprietary audit trail. Full sovereignty over sensitive public records and critical services.</p>
+      </div>
+      <div class="pillar reveal reveal-d2">
+        <span class="pillar-icon">🏢</span>
+        <h3>Enterprises &amp; Businesses</h3>
+        <p>Eliminate SaaS subscriptions that compound every quarter. Own your operational stack. Move fast without being held hostage by vendor pricing, downtime, or roadmaps you don't control.</p>
+      </div>
+      <div class="pillar reveal reveal-d3">
+        <span class="pillar-icon">👩‍💻</span>
+        <h3>Builders &amp; Developers</h3>
+        <p>Self-host the full development stack. Contribute to layers you care about. Build on open infrastructure you trust — and make digital independence accessible to everyone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="container">
+    <blockquote>
+      "The best infrastructure is the infrastructure <span class="grad-inline">you own.</span><br>
+      Not rented, not borrowed, not cloud-mediated. Owned."
+    </blockquote>
+    <cite>— OpenWorkBench Collective</cite>
+  </div>
+</section>
+
+<!-- CONTRIBUTE -->
+<section class="section">
+  <div class="container">
+    <div class="cta-card reveal">
+      <h2>Join the Initiative</h2>
+      <p>OpenWorkBench is community-driven. Pick a layer, open an issue, submit a PR — or just say hello. Every contribution moves the needle on digital independence.</p>
+      <div class="cta-row" style="margin-bottom:0;">
+        <a href="https://github.com/OpenWorkBench-Co" target="_blank" rel="noopener" class="btn-primary">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          Explore on GitHub
+        </a>
+        <a href="mailto:hello@OpenWorkBench.co" class="btn-secondary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          hello@OpenWorkBench.co
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 310">
+        <path d="M 194 54 A 88 88 0 1 1 106 54" fill="none" stroke="#e2e8f0" stroke-width="14" stroke-linecap="round"/>
+        <polyline points="89,69 112,176 150,134 188,176 211,69" fill="none" stroke="#e2e8f0" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <strong>OpenWorkBench</strong>
+        <span>De-Cloud. De-SaaS. Empower Digital Independence.</span>
+      </div>
+    </div>
+    <span class="footer-tagline">Open Source · Community Driven · Digital Sovereignty</span>
+    <div class="footer-links">
+      <a href="https://github.com/OpenWorkBench-Co" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:hello@OpenWorkBench.co">hello@OpenWorkBench.co</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const io = new IntersectionObserver(
+    entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('in')),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Typewriter
+  (function() {
+    const el = document.getElementById('tw');
+    const phrases = [
+      "Empower Digital Independence.",
+      "Own Your Infrastructure.",
+      "Break Free from the Cloud.",
+      "Sovereign Technology. Forever.",
+      "Your Stack. Your Rules."
+    ];
+    let pi = 0, ci = 0, deleting = false;
+    function tick() {
+      const phrase = phrases[pi];
+      if (!deleting) {
+        el.textContent = phrase.slice(0, ++ci);
+        if (ci === phrase.length) { deleting = true; setTimeout(tick, 2400); return; }
+        setTimeout(tick, 65);
+      } else {
+        el.textContent = phrase.slice(0, --ci);
+        if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(tick, 350); return; }
+        setTimeout(tick, 38);
+      }
+    }
+    setTimeout(tick, 600);
+  })();
+</script>
+
+</body>
+</html>
