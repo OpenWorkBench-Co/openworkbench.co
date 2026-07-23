@@ -374,11 +374,24 @@
       line-height: 1.75;
       flex: 1;
     }
+    .sponsor-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: auto;
+    }
     .sponsor-link {
       font-size: 12px;
       font-family: 'JetBrains Mono', monospace;
       color: var(--accent);
       letter-spacing: 0.05em;
+    }
+    .sponsor-coming {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--sub);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      padding: 3px 8px; border-radius: 100px;
+      letter-spacing: 0.06em;
     }
 
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
@@ -712,8 +725,11 @@
         <div class="sponsor-logo">
           <img src="/zysec-logo.png" alt="ZySec AI" style="height:38px;width:auto;object-fit:contain;"/>
         </div>
-        <p class="sponsor-desc">Sovereign intelligence for the AI era — sense, reason, and defend on infrastructure you own. No cloud middleman. No data exposure. Just intelligence under your control.</p>
-        <span class="sponsor-link">zysec.ai ↗</span>
+        <p class="sponsor-desc">Where intelligence becomes sovereign. ZySec AI is the autonomous intelligence layer for the AI era — self-aware, self-defending, and self-contained within your perimeter. Your data never leaves. Your decisions never wait for someone else's cloud.</p>
+        <div class="sponsor-footer">
+          <span class="sponsor-link">zysec.ai ↗</span>
+          <span class="sponsor-coming">GitHub · Coming Soon</span>
+        </div>
       </a>
 
       <!-- Coredge -->
@@ -723,7 +739,10 @@
           <span style="display:none;font-size:22px;font-weight:800;color:#e2e8f0;letter-spacing:-0.03em;">Coredge</span>
         </div>
         <p class="sponsor-desc">Your cloud. Your GPU. Your rules. Coredge unifies AI and edge compute into one sovereign platform — so enterprises and governments run AI workloads without handing data to someone else's infrastructure.</p>
-        <span class="sponsor-link">coredge.io ↗</span>
+        <div class="sponsor-footer">
+          <span class="sponsor-link">coredge.io ↗</span>
+          <span class="sponsor-coming">GitHub · Coming Soon</span>
+        </div>
       </a>
 
       <!-- Infinia Technologies -->
@@ -737,7 +756,10 @@
           </svg>
         </div>
         <p class="sponsor-desc">Sovereign infrastructure, engineered end-to-end. Infinia builds the systems that power digital independence — from architecture to deployment, no lock-in, no compromise.</p>
-        <span class="sponsor-link">infiniatechnologies.com ↗</span>
+        <div class="sponsor-footer">
+          <span class="sponsor-link">infiniatechnologies.com ↗</span>
+          <span class="sponsor-coming">GitHub · Coming Soon</span>
+        </div>
       </a>
 
     </div>
